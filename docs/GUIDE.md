@@ -53,6 +53,7 @@ There are 4 test (`POST`, `GET`, `PUT`, `DELETE`).
 The code blocks below must be used to complete the setup of the test or to complete the verification part of the test.
 Each test must be completed with one or more **setup blocks** and one or more **validation blocks** to verify the behaviour tested.
 
+/* SETUP 1*/
 **Setup block**: ensure that the repository returns a specific employee with `id = 1`.
 ```kotlin
 every {
@@ -61,7 +62,7 @@ every {
     Optional.of(Employee("Mary", "Manager", 1))
 }
 ```
-
+/* SETUP 2 */
 **Setup block**: ensure that the repository does not contain an employee with `id = 2`.
 ```kotlin
 every {
@@ -71,6 +72,7 @@ every {
 }
 ```
 
+/*  SETUP 3. Primera vez que busquen uno devuelvo que no hay, el resto de veces devuelvo tom */
 **Setup block**: ensure in first call that the repository does not contain an employee with `id = 1` and a specific employee in the second call.
 ```kotlin
 every {
@@ -82,6 +84,7 @@ every {
 }
 ```
 
+/*  SETUP 4. Reverso, primero devuelvo info de tom, despues no. */
 **Setup block**: ensure in first call that the repository contain a specific with `id = 1` and none identified by `id = 1` in the second call.
 ```kotlin
 every {
@@ -92,14 +95,15 @@ every {
     Optional.empty()
 }
 ```
-
+/* SETUP 5. */
 **Setup block**: ensure that the call to delete an employee identified by `id = 1` works.
 ```kotlin
 justRun {
     employeeRepository.deleteById(1)
 }
 ```
-
+/*  SETUP 6. Capturamos el objeto qu ese pasa al save, primera vez devolvemos mismo objeto con id puesto a 1 y la segunda vez el mismo 
+con el id puesto a 2*/
 **Setup block**: ensure in first call that the repository save the employee with `id = 1` and with `id = 2` in the second call.
 ```kotlin
 every {
@@ -111,6 +115,7 @@ every {
 }
 ```
 
+/*  SETUP 7. Todo lo que capturo lo devuelvo tal cual */
 **Setup block**: ensure that the repository save the employee withouth modifying its `id`.
 ```kotlin
 val employee = slot<Employee>()
@@ -120,28 +125,28 @@ every {
     employee.captured
 }
 ```
-
+/* VERIFY 1 Comrpobar que durante el test de ese metodo se ha llamado un numero minimo de veces a una o varias funciones con un valor genérico*/
 **Verify block**: verify that `save` has been called twice with a new employee without `id`.
 ```kotlin
 verify(exactly = 2) {
     employeeRepository.save(Employee("Mary", "Manager"))
 }
 ```
-
+/*  VERIFY 2 Se ha tenido que llamar 2 veces a tom manager con id = 1 */
 **Verify block**: verify that `save` has been called twice with an employee with `id = 1`.
 ```kotlin
  verify(exactly = 2) {
     employeeRepository.save(Employee("Tom", "Manager", 1))
 }
 ```
-
+/*  VERIFY 3 se ha llamado 2 veces a find by id con valor 1 */
 **Verify block**: verify that `findById(1)` has been called twice.
 ```kotlin
 verify(exactly = 2) {
     employeeRepository.findById(1)
 }
 ```
-
+/*  VERIFY 4 nunca se ha llamado a un método que modifique el estado */
 **Verify block**: verify methods that modify the repository have not been invoked.
 ```kotlin
 verify(exactly = 0) {
@@ -149,7 +154,7 @@ verify(exactly = 0) {
     employeeRepository.deleteById(any())
 }
 ```
-
+/*  VERIFY 5 comrpobamos que delete by id se ha modificado una sola vez */
 **Verify block**: verify that `deleteById(1)` has been called once.
 ```kotlin
 verify(exactly = 1) {
