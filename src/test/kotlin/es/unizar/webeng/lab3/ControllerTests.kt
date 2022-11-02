@@ -1,6 +1,10 @@
 package es.unizar.webeng.lab3
 
 import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
+import io.mockk.justRun
+import io.mockk.slot
+import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -12,10 +16,6 @@ import org.springframework.test.web.servlet.delete
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.put
-import io.mockk.slot
-import io.mockk.every
-import io.mockk.verify
-import io.mockk.justRun
 import java.util.Optional
 
 private val MANAGER_REQUEST_BODY = { name: String ->
@@ -88,7 +88,6 @@ class ControllerTests {
         verify(exactly = 2) {
             employeeRepository.save(Employee("Mary", "Manager"))
         }
-
     }
 
     @Test
@@ -126,7 +125,6 @@ class ControllerTests {
         }
 
         // VERIFY -
-
     }
 
     @Test
@@ -165,7 +163,7 @@ class ControllerTests {
             content = MANAGER_REQUEST_BODY("Tom")
             accept = MediaType.APPLICATION_JSON
         }.andExpect {
-            status { isOk() }   /* Respuesta igual but en vez de created devuelve ok pq estamos reescribiendo */
+            status { isOk() } /* Respuesta igual but en vez de created devuelve ok pq estamos reescribiendo */
             header { string("Content-Location", "http://localhost/employees/1") }
             content {
                 contentType(MediaType.APPLICATION_JSON)
@@ -176,7 +174,6 @@ class ControllerTests {
         verify(exactly = 2) {
             employeeRepository.save(Employee("Tom", "Manager", 1))
         }
-
     }
 
     @Test
