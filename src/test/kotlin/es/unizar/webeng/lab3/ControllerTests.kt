@@ -91,7 +91,6 @@ class ControllerTests {
 
     }
 
-
     @Test
     fun `GET is safe and idempotent`() {
 
