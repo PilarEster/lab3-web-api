@@ -204,6 +204,5 @@ class ControllerTests {
         verify(exactly = 1) {
             employeeRepository.deleteById(1)
         }
-
     }
 }
